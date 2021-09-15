@@ -4,8 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using ProEventos.API.Data;
-using ProEventos.API.Models;
+using ProEventos.Persistence;
+using ProEventos.Domain;
 
 namespace ProEventos.API.Controllers
 {
@@ -16,27 +16,27 @@ namespace ProEventos.API.Controllers
 
         public IEnumerable<Evento> _evento = new Evento[]{
         new Evento() {
-               EventoId = 1,
+               Id = 1,
                Tema = "teste",
                Local = "Goiania",
                Lote = "1 Lote",
                QtdPessoas = 250,
-               DataEvento = DateTime.Now.AddDays(2).ToString(),
+               DataEvento = DateTime.Now.AddDays(2),
                ImagemURL = "teste.png"
                       },
                        new Evento() {
-               EventoId = 2,
+               Id = 2,
                Tema = "teste 2",
                Local = "Aparecida",
                Lote = "1 Lote",
                QtdPessoas = 250,
-               DataEvento = DateTime.Now.AddDays(2).ToString(),
+               DataEvento = DateTime.Now.AddDays(2),
                ImagemURL = "teste.png"
                        }
     };
-        private readonly DataContext _context;
+        private readonly ProEventosContext _context;
      
-        public EventosController(DataContext context)
+        public EventosController(ProEventosContext context)
         {
             _context = context;
         }
@@ -51,7 +51,7 @@ namespace ProEventos.API.Controllers
         [HttpGet("{id}")]
         public IEnumerable<Evento> Get(int id)
         {
-           return _context.Eventos.Where(evento => evento.EventoId == id);
+           return _context.Eventos.Where(evento => evento.Id == id);
                 
         }
 
